@@ -53,7 +53,6 @@ oddResolve (OO x) = O x
 oddResolve (EE x) = error ( (show x) ++ " is not an odd number!" )
 
 -- Now, from a list ls, we construct a list of even numbers if the type system allows us. 
-
 constructEvenList :: [Int] -> [Even]
 constructEvenList ls = map evenResolve (typeNumLs ls)
 -- constructEvenList (evenNumbers 10) -> [E 0,E 2,E 4,E 6,E 8,E 10]

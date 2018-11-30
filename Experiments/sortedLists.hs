@@ -1,4 +1,4 @@
--- sorting.hs
+-- sortedLists.hs
 -- November 2018
 -- Andrew Ribeiro
 -- In this exercise we will explore the traditional problem of sorting
