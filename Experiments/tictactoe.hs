@@ -21,7 +21,7 @@ import Data.Maybe
 data Player = X | O deriving Show 
 data Cell = E | P Player deriving Show 
 data EndState = D | W Player deriving Show 
-type Board = [Cell]
+type Board = [[Cell]]
 
 instance Eq Cell where
     E == E = True
@@ -72,31 +72,33 @@ cellToPlayer :: Cell -> Player
 cellToPlayer (P x) = x
 cellToPlayer E = error "Cannot convert E to a player."
 
-whoWonDiag :: [[Cell]] -> Maybe Player
+-- #### Win Conditions ####
+whoWonDiag :: Board -> Maybe Player
 whoWonDiag boardState
     | isAllPlayer res = Just (cellToPlayer (head res))
     | otherwise = Nothing
     where res = incGrabber boardState 0
 -- whoWonDiag [[(P X),E,E],[E,(P X),E],[E,E,(P X)]]
 
-whoWonCounterDiag :: [[Cell]] -> Maybe Player
-whoWonCounterDiag boardState = whoWonDiag (map reverse boardState)
+whoWonCounterDiag :: Board -> Maybe Player
+whoWonCounterDiag boardState = whoWonDiag (reverse boardState)
 -- whoWonCounterDiag [[(P X),E,E],[E,(P X),E],[E,E,(P X)]]
+-- whoWonCounterDiag [[E,E,(P X)],[E,(P X),E],[(P X),E,E]]
 
-whoWonRow :: [[Cell]] -> Maybe Player
+whoWonRow :: Board -> Maybe Player
 whoWonRow boardState = 
     case (filter isAllPlayer boardState) of
         [] -> Nothing
-        (x:xs) -> Just (cellToPlayer (head x))
+        (x:xs) -> Just (cellToPlayer ( head x))
 -- whoWonRow [[(P X),(P X),(P X)],[(P X),(P X),(P O)],[(P X),(P X),(P O)]]
 -- whoWonRow [[(P X),E,E],[E,(P X),E],[E,E,(P X)]]
 -- whoWonRow (transpose [[(P X),(P X),(P X)],[(P X),(P X),(P O)],[(P X),(P X),(P O)]])
 
-whoWonColumn :: [[Cell]] -> Maybe Player
+whoWonColumn :: Board -> Maybe Player
 whoWonColumn boardState = whoWonRow (transpose boardState)
 -- whoWonColumn [[(P X),(P X),(P X)],[(P X),(P X),(P O)],[(P X),(P X),(P O)]]
 
-whoWon :: [[Cell]] -> Maybe Player
+whoWon :: Board -> Maybe Player
 whoWon boardState
     | all (Nothing== ) res= Nothing
     | otherwise = head (filter (\x -> Just O == x || Just X == x) res)
@@ -104,17 +106,21 @@ whoWon boardState
 -- whoWon [[(P X),(P X),(P X)],[(P X),(P X),(P O)],[(P X),(P X),(P O)]]
 -- whoWon [[(P X),(P X),(P X)],[(P O),(P O),(P X)],[(P O),(P O),(P X)]]
 
+isBoardFull :: Foldable t => [t Cell] -> Bool
 isBoardFull boardState = not (foldl (||) False (map (any (E==)) boardState))
 -- isBoardFull [[(P X),(P X),(P X)],[(P O),(P O),(P X)],[(P O),(P O),(P X)]]
 -- isBoardFull [[(P X),E,E],[E,(P X),E],[E,E,(P X)]]
 
-terminalState::[[Cell]] -> Maybe EndState
+terminalState :: Board -> Maybe EndState
 terminalState boardState 
     | winState /= Nothing = Just (W (fromJust winState) )
     | boardFull && (winState == Nothing) = Just D 
     | otherwise = Nothing 
     where winState = whoWon boardState
           boardFull = isBoardFull boardState
-
 -- terminalState [[(P X),E,E],[E,(P X),E],[E,E,(P X)]]
 -- terminalState initialState 
+
+-- #### Printing Functions ####
+printBoard boardState = concatMap (\x->x++"\n") (map show boardState)
+-- printBoard [[(P X),E,E],[E,(P X),E],[E,E,(P X)]]
