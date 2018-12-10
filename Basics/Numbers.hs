@@ -1,5 +1,4 @@
 module Numbers where
-import Trees
 import Data.Fixed (mod')
 
 -- How Gauss originally thought about summing sequences of natural numbers.
@@ -13,14 +12,15 @@ gaussIntegerSumFormula end = (end*(end+1))/2
 -- So gauss had some internal function that enabled him to do: gaussIntegerSum -> gaussIntegerSumFormula
 -- Which we note is (sum $ map (\(a,b) -> a+b) (zip ls (reverse ls))) -> (end*(end+1))
 
-collatz :: Float -> Float
+collatz :: Int -> Int
 collatz n
-  | mod' n 2 == 0 = n/2
+  | mod' n 2 == 0 = quot n 2
   | otherwise = 3*n + 1
 
 collatzSeq n
-  | n == 1 = []
-  | otherwise = collatz n:collatzSeq (n-1)
+  | n == 1 = [1]
+  | otherwise = n:collatzSeq res
+  where res = collatz n
 -- btreeSort True $ collatzSeq $ 30
 -- btreeSort False $ collatzSeq $ 30
 -- btreeSort False $ collatzSeq $ 10000

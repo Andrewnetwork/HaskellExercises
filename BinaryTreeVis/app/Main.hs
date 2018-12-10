@@ -7,7 +7,7 @@ import Graphics.Gloss
 main
  = display
         (InWindow
-	       "Hello World" 	 -- window title
+	       "Hello Haskell" 	 -- window title
 		(400, 150) 	 -- window size
 		(10, 10)) 	 -- window position
 	white			 -- background color
