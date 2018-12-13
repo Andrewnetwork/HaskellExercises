@@ -1,17 +1,29 @@
+-- Sequence.hs
+-- Andrew Ribeiro
+-- December 13, 2018
 
-module Graphs where
+module Sequence where
 import           Data.List
-import           Data.Maybe        (fromJust)
-import           IO
+import           Data.Maybe        (fromJust,isJust)
 import           ListManipulations
-import           Numbers
 import           Trees
-import           Data.Maybe
-import           Debug.Trace
 import           Symmetry
 
 data AdjacencyMatrix = AdjacencyMatrix [Int] [[Int]]
 data MergeTree = MergeTree MergeTree [MergeTree] | Node [Int] | NullElm deriving Show
+
+gridString :: (Show a) => [[a]] -> String
+gridString  []   = "┌─┐\n└─┘\n"
+gridString  [[]] = "┌─┐\n└─┘\n"
+gridString  xxs  = (++ bot) $ concat $ zipWith (\a b -> unlines [a, b]) (top : replicate rowC mid) rows
+  where
+    rowC   = pred . length $ xxs
+    colC   = pred . length . head $ xxs
+    top    = "┌" ++ repC "─┬" ++ "─┐"
+    mid    = "├" ++ repC "─┼" ++ "─┤"
+    bot    = "└" ++ repC "─┴" ++ "─┘"
+    repC  = concat . replicate colC
+    rows   = (++ "|") . ('|' :) . intercalate "|" . ((\x -> show x) <$>) <$> xxs
 
 instance Show AdjacencyMatrix where
   show (AdjacencyMatrix labels matrix) = gridString matrix
@@ -35,53 +47,7 @@ seqAdjacency ls = seqAdjacency' (listNeighbors ls) (initAdjacencyMatrix ls)
 seqAdjacency' [] adjMat         = adjMat
 seqAdjacency' ((a,b):xs) adjMat = seqAdjacency' xs (addAdjacency a b adjMat)
 
--- sequence -> listNeighbors -> adjMat
--- [(1,2),(2,3),(3,4),(4,5),(5,6)] -> [(1,2),(5,6),(2,3),(3,4),(4,5)]
--- seqAdjacency [1..20]
--- seqAdjacency [1,2,3,1,2,3,1,2,3,1,2,3]
--- seqAdjacency [1,3,2,1,3,2,2,1,3,2,1,3]
--- seqAdjacency [3,2,1,3,2,1,3,2,1]
--- seqAdjacency [10,11,12,10,11,12]
--- seqAdjacency [11,10,12,10,11,12]
--- seqAdjacency [1,2,2,2,1,1,1,4,4,6]
--- addAdjacency 1 2 (initAdjacencyMatrix [1,2,3])
--- seqAdjacency.collatzSeq $ 30000
--- matrixInsert 3 (1,1) [[0,0,0],[0,0,0],[0,0,0]]
--- [1,2,3]
--- [2,3,4]
--- seqAdjacency $ poolSequence (collatzSeq 100000) 1000
--- TODO: AdjacencyMatrix to sequence.
--- take 4 $ repeat [1,2]
--- replaceElement 3 [3,2] $ take 4 $ repeat [1,2]
--- concat $ take 4 $ repeat [1,2]
--- concatOnHead (concat $ take 4 $ repeat [1,2]) [2,3]
--- sequence -> adjMat
--- adjMatrix -> sequence
--- adjMatrixToSeq :: AdjacencyMatrix -> [Int]
---
---adjMatrixPairs (AdjacencyMatrix labels mat) = (head labels)adjMatrixPairs
--- adjMatrixPairs.seqAdjacency $ [10,11,12,10,11,12] -> [(10,11),(10,11),(11,12),(11,12),(12,10)]
---  [(10,11),(10,11),(11,12),(11,12),(12,10)]
---  [[10,11],[10,11],[11,12],[11,12],[12,10]]
---  [[10,11,12],[10,11],[11,12],[12,10]]
---  [[10,11,12,10],[10,11],[11,12]]
---  [[10,11,12,10,11],[11,12]]
---  [[10,11,12,10,11,12]]
---tmpFn :: [(Int,Int)] -> [Int]
---tmpFn ls = tmpFn' $ map tupleToList ls
---tmpFn' (x:xs) = x
---concatOnHead
--- seqAdjacency [2,3,4,1,2,3,4,1]
--- map tupleToList [(1,2),(2,3),(2,3),(3,4),(3,4),(4,1),(4,1)]
--- [[1,2],[2,3],[2,3],[3,4],[3,4],[4,1],[4,1]]
--- [[1,2,3],[2,3],[3,4],[3,4],[4,1],[4,1]]
--- [[1,2,3,4],[2,3],,[3,4],[4,1],[4,1]]
--- [[1,2,3,4,1],[2,3],[3,4],[4,1]] Cannot MERGE!
--- [[2,3],[3,4],[4,1],[1,2,3,4,1]] RR SHUFFLE
--- [[2,3,4],[4,1],[1,2,3,4,1]]
--- [[2,3,4,1],[1,2,3,4,1]]
--- [[2,3,4,1,2,3,4,1]]
---adjMatrixPairs :: AdjacencyMatrix -> [(Int,Int)]
+
 adjMatrixPairs mat@(AdjacencyMatrix labels _ ) = foldr (++) [] $ foldr (++) [] (adjMatrixPairs' mat labels)
 adjMatrixPairs' (AdjacencyMatrix _ [] ) labels = []
 adjMatrixPairs' (AdjacencyMatrix (y:ys) (x:xs) ) labels = tupleRow : adjMatrixPairs' (AdjacencyMatrix ys xs) labels
