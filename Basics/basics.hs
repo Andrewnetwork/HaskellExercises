@@ -11,4 +11,4 @@ data FORA a b = F b | A a
 --argumentCounter [] = A 0
 --argumentCounter (A y) = A y
 argumentCounter (F x) = x
--- argumentCounter addThree 
+-- argumentCounter addThree

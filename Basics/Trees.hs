@@ -31,6 +31,13 @@ treeToList' None = []
 treeToList' (Tree parent count l r) = leftBranch:take count (repeat parent):rightBranch
                                       where leftBranch = concat.treeToList' $ l
                                             rightBranch = treeToList' $ r
+
+treeNub  ls =  concat.treeNub' $ tree
+              where tree = listToTree ls
+treeNub' None = []
+treeNub' (Tree parent count l r) = leftBranch:[parent]:rightBranch
+                                   where leftBranch = concat.treeNub' $ l
+                                         rightBranch = treeNub' $ r
 -- treeToList.listToTree $ [1,1,4,5,6]
 -- treeToList.listToTree $ [6,5,4,3,2]
 -- treeToList.listToTree $ [1,1,-1,-2,4,9,5,6]
