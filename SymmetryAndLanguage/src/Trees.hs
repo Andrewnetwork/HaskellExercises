@@ -23,14 +23,15 @@ treeToList' None = []
 treeToList' (Tree parent count l r) = leftBranch:take count (repeat parent):rightBranch
                                       where leftBranch = concat.treeToList' $ l
                                             rightBranch = treeToList' $ r
-
+treeNub :: Ord a => [a] -> [a]
 treeNub  ls =  concat.treeNub' $ tree
               where tree = listToTree ls
+
+treeNub' :: BinaryCounterTree a -> [[a]]
 treeNub' None = []
 treeNub' (Tree parent count l r) = leftBranch:[parent]:rightBranch
                                    where leftBranch = concat.treeNub' $ l
                                          rightBranch = treeNub' $ r
-
 
 btreeSort :: Ord a => Bool -> [a] -> [a]
 btreeSort accending ls
@@ -59,24 +60,3 @@ allCounts' None = []
 allCounts' (Tree parent count l r) = leftBranch:[(parent,count)]:rightBranch
                                      where leftBranch = concat.allCounts' $ l
                                            rightBranch = allCounts' $ r
-
-
--- concatMap collatzSeq [1..1000000000]
-
--- filter (\(n,c)->c>=2) (allCounts.listToTree $ collatzSeq 1000)
--- filter (\(n,c)->c>=2) (allCounts.listToTree $ collatzSeq 40)
-
--- allCounts (listToTree [1,1,4,5,2,1,6])
--- allCounts.listToTree $ collatzSeq 8000
--- filter (\(n,c)->c>=2) (allCounts.listToTree $ collatzSeq 8000)
--- countElem 100 (listToTree $ collatzSeq 8000)
--- countElem 1 (listToTree $ [1,1,4,5,2,1,6])
--- fmap (succ.succ) (listToTree $ [1,1,4,5,6])
--- fmap (2==) (listToTree $ [1,1,4,5,2,6])
--- any (2==) (listToTree $ [1,1,4,5,2,6])
--- sum (listToTree $ [1,1,4,5,2,6])
-
--- foldr (+) 3 (listToTree $ [1,1,4,5,2,6])
--- foldr (+) 0 (listToTree $ [1,1])
--- foldMap (3==) (listToTree $ [1,1,4,5,3,6])
--- elem 3 (listToTree $ [1,1,4,2,2,6])

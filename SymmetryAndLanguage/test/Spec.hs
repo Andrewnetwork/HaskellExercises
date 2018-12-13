@@ -3,10 +3,132 @@ import Test.Hspec
 main :: IO ()
 main = hspec $ do
                tests1
+-- listNeighbors [1,2,3,4,5,6]
+               -- concatMap collatzSeq [1..1000000000]
+
+               -- filter (\(n,c)->c>=2) (allCounts.listToTree $ collatzSeq 1000)
+               -- filter (\(n,c)->c>=2) (allCounts.listToTree $ collatzSeq 40)
+
+               -- allCounts (listToTree [1,1,4,5,2,1,6])
+               -- allCounts.listToTree $ collatzSeq 8000
+               -- filter (\(n,c)->c>=2) (allCounts.listToTree $ collatzSeq 8000)
+               -- countElem 100 (listToTree $ collatzSeq 8000)
+               -- countElem 1 (listToTree $ [1,1,4,5,2,1,6])
+               -- fmap (succ.succ) (listToTree $ [1,1,4,5,6])
+               -- fmap (2==) (listToTree $ [1,1,4,5,2,6])
+               -- any (2==) (listToTree $ [1,1,4,5,2,6])
+               -- sum (listToTree $ [1,1,4,5,2,6])
+
+               -- foldr (+) 3 (listToTree $ [1,1,4,5,2,6])
+               -- foldr (+) 0 (listToTree $ [1,1])
+               -- foldMap (3==) (listToTree $ [1,1,4,5,3,6])
+               -- elem 3 (listToTree $ [1,1,4,2,2,6])
+
+
+               -- selectivePop' [1,2,3,4] [0,0,0] (\x->x==3)
+               -- listNeighborsInv [(1,2),(2,3),(3,4),(4,5),(5,6)]
+               -- seqAdjacency [1,3,2,1,3,2,1,3,2,2,1,3]
+
+               -- filter (\x->x/=3) [1,2,3,4,5]
+               --selectivePop ls fn =
+               -- selectivePop [1,2,3,4,5] (\x->3=x) -> (3,[1,2,4,5])
+               -- selectivePop [1,2,3,4,5] (\x->x>3) -> (4,[1,2,3,5])
+               -- concatOnHead [1,2,3,4,5,6] [3,5,6] -> [1,2,3,5,6,4,5,6]
+               -- concatOnHead [1,2,3,4,5,3] [3,5,6] -> [1,2,3,5,6,4,5,3,5,6]
+               -- concatOnHead [1,2,4,1,2,3,4,1,2,3,4] [2,0]
+               -- concatOnHead [2,4,1,2,3,4,1,2] [2,0]
+               -- splitAt 3  [0,1,2,3,4,5,6,7]
+               -- map (\x-> splitAt x [1,2,3,4,2,1,4]) $ locations 2 [1,2,3,4,2,1,4]
+               --mergeTupleList :: Eq t => [(t,t)] -> [t]
+               --mergeTupleList ls =
+               -- listNeighbors [1,2,3,4,5,6] -> [(1,2),(2,3),(3,4),(4,5),(5,6)]
+               -- listNeighbors.listNeighbors $ [1,2,3,4,5,6]
+               --listNeighborsInv ls = map (\((a,b),(c,d))->[a,b,d]) (listNeighbors ls)
+               -- listNeighborsInv [(1,2),(2,3),(3,4),(4,5),(5,6)]
+               --listNeighborsInv [] = []
+               --listNeighborsInv ((a,b):(c,d):xs) = [a,b,d]:listNeighborsInv xs
+               --mergeTuples (a,b) (c,d) = (a,b,d)
+               --AdjacencyMatrix [1,2,3] [[1,2,2],[4,2,1],[4,5,2]]
+
+
+               --seqAdjacency [1,2,3] -> AdjacencyMatrix [1,2,3] [[1,0,0],[0,1,0],[0,0,1]]
+
+               -- addAdjacency 1 2 (initAdjacencyMatrix [1,2,3])
+
+               -- applySym (horz.diag) [10,11,12,10,11,12]
+               -- symmetryCousins (horz.diag) [10,11,12,10,11,12]
+               -- sequenceClass [10,11,12,10,11,12]
+
+               -- symmetryCousins (diag) [10,11,12,10,11,12]
+               -- adjMatrixToSeqClass $ applySym (horz.diag) [10,11,12,10,11,12]
+
+               -- (a,b) = selectivePop [[1,2],[3,4],[5,6]] (\(x:xs)->x==5)
+               --  traceShow  (show [(10,11),(10,11),(11,12),(11,12),(12,10)]) (adjMatrixPairsMerge [(10,11),(10,11),(11,12),(11,12),(12,10)]
+               -- adjMatrixPairsMerge [(10,11),(10,11),(11,12),(11,12),(12,10)]
+               -- [concatOnHead [1,2,3,4,5,6] [2,3]]
+               --
+               -- [[1,2,3]] ++ [[4,5,6],[7,8,9]]
+               -- (adjMatrixToSeq.seqAdjacency $ [1,3,2,1,3,2,2,1,3,2,1,3]) == [1,3,2,1,3,2,2,1,3,2,1,3]
+               -- seqAdjacency [1,3,2,1,3,2,2,1,3,2,1,3]
+               -- [(1,3),(1,3),(1,3),(1,3),(2,1),(2,1),(2,1),(2,2),(3,2),(3,2),(3,2)]
+               -- [(1,3,2),(1,3),(1,3),(1,3),(2,1),(2,1),(2,1),(2,2),(3,2),(3,2)]
+               -- [(1,3,2,1),(1,3),(1,3),(1,3),(2,1),(2,1),(2,2),(3,2),(3,2)]
+               -- [(1,3,2,1,3),(1,3),(1,3),(2,1),(2,1),(2,2),(3,2),(3,2)]
+               -- [(1,3,2,1,3,2),(1,3),(1,3),(2,1),(2,1),(2,2),(3,2)]
+               -- [(1,3,2,1,3,2,1),(1,3),(1,3),(2,1),(2,2),(3,2)]
+               -- [(1,3,2,1,3,2,1,3),(1,3),(2,1),(2,2),(3,2)]
+               -- [(1,3,2,1,3,2,1,3,2),(1,3),(2,1),(2,2)]
+               -- [(1,3,2,1,3,2,1,3,2,1),(1,3),(2,2)]
+               -- [(1,3,2,1,3,2,1,3,2,1,3),(2,2)]
+
+               -- Problem given a list of tuples, return all the ways the tuples can be merged.
+               -- Make a tree of all the possible combinations.
+               -- Merging procedure: A sublist can be merged if their first and last elements
+               -- match.
+
+               -- [(10,11),(10,11),(11,12),(11,12),(12,10)]
+               -- buildMergeTree' [1,2] [[3,4],[1,2],[2,4]]
+               -- buildMergeTree' root candidates
+               --  map (\(a,b)-> a b ) (zip (map replicate x) pairs)
+               -- filter (\x-> canMerge [1,2,3] x) [[1,2],[3,4],[4,5]]
+               --adjMatrixPairs.seqAdjacency $ [10,11,12,10,11,12]
+               --adjMatrixPairs.seqAdjacency $ [1,1,2,2,3,4,5,6,3,3]
+               -- zip (repeat 1) [1,2,3]
+               -- 1 -> 1 , 1 - 2, 1 -> 3
+               -- zip (repeat labels!!0) (labels)
+               -- take 4 [1,2,3,4,5]
+
+               -- adjacencyMatrixTree [10,11,12,10,11,12]
+               -- adjacencyMatrixTree [1,2,3,3,2,1]
+               -- seqSymmPath [1,2,3,3,2,1] [3,2,1,2,3,1]
+               -- seqAdjacency [1,2,3,3,2,1]
+               -- seqAdjacency [3,2,1,2,3,1]
+
+
+               -- allSequenceSym ls =              --symmetryCousins
+               --                     where (AdjacencyMatrix label mat) = (seqAdjacency ls)  --makeSymTree
+               --                           symmetryTree = makeSymTree mat
+
+
+               -- allSequenceSym [10,11,12,10,11,12]
+
+               -- adjMatrixSymmetryPath (seqAdjacency [10,11,12,10,11,12]) (seqAdjacency [10,11,10,12,11,12])
 
 
 
 
+               -- [(10,11),(11,11),(10,11),(11,11),(12,12)]
+
+               --  seqAdjacency [10,11,12,10,11,12]
+               -- --------------- ----
+               --combinations $ map tupleToList (adjMatrixPairs.seqAdjacency $ [10,11,12,10,11,12])
+               -- sequenceClass [10,11,12,10,11,12] -> [[10,11,12,10,11,12]]
+               -- sequenceClass [1,1,2,2,3,4,5,6,3,3] -> [[1,1,2,2,3,3,4,5,6,3],[1,1,2,2,3,4,5,6,3,3]]
+               -- sequenceClass [1,1,2,2,3,0,5,6,3,3] -> [[1,1,2,2,3,0,5,6,3,3],[1,1,2,2,3,3,0,5,6,3]]
+               -- sequenceClass [1,3,2,1,3,2,2,1,3,2,1,3] -> [[1,3,2,1,3,2,1,3,2,2,1,3],[1,3,2,1,3,2,2,1,3,2,1,3],[1,3,2,2,1,3,2,1,3,2,1,3]]
+
+               -- Per each sequence length, what is the distribution of the number of
+               -- sequences in that classs.
 
                --  map (\x->x [[1,0],[1,1]] )  (map symPathToFunc (symPath [[1,0],[1,1]] [[1,1],[1,0]]))
                --  map ((\x->x [[1,0],[1,1]] ).symPathToFunc) (symPath [[1,0],[1,1]] [[1,1],[1,0]])

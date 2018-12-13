@@ -1,3 +1,7 @@
+-- ListManipulations.hs
+-- Andrew Ribeiro
+-- December 13, 2018
+
 module ListManipulations where
 import Data.Maybe
 
@@ -7,13 +11,11 @@ insert e (x:xs) pos
    | pos == 0 = e:xs
    | otherwise = x:(insert e (xs) (pos-1))
 
-
 matrixInsert :: (Eq t1, Num t1) => t2 -> (Int, t1) -> [[t2]] -> [[t2]]
 matrixInsert e (row,col) mat = insert (insert e (mat!!row) col) mat row
 
 listNeighbors :: [b] -> [(b, b)]
 listNeighbors ls = zip (init ls) (tail ls)
--- listNeighbors [1,2,3,4,5,6]
 
 listNeighborsInv :: [(a, a)] -> [a]
 listNeighborsInv (x:xs) = (tupleToList x)++listNeighborsInv' xs
@@ -47,29 +49,6 @@ selectivePop' [] ls fn = (Nothing,ls)
 selectivePop' (x:xs) ls fn
   | fn x = (Just x,ls++xs)
   | otherwise = selectivePop' xs (ls++[x]) fn
--- selectivePop' [1,2,3,4] [0,0,0] (\x->x==3)
 
--- filter (\x->x/=3) [1,2,3,4,5]
---selectivePop ls fn =
--- selectivePop [1,2,3,4,5] (\x->3=x) -> (3,[1,2,4,5])
--- selectivePop [1,2,3,4,5] (\x->x>3) -> (4,[1,2,3,5])
--- concatOnHead [1,2,3,4,5,6] [3,5,6] -> [1,2,3,5,6,4,5,6]
--- concatOnHead [1,2,3,4,5,3] [3,5,6] -> [1,2,3,5,6,4,5,3,5,6]
--- concatOnHead [1,2,4,1,2,3,4,1,2,3,4] [2,0]
--- concatOnHead [2,4,1,2,3,4,1,2] [2,0]
--- splitAt 3  [0,1,2,3,4,5,6,7]
--- map (\x-> splitAt x [1,2,3,4,2,1,4]) $ locations 2 [1,2,3,4,2,1,4]
---mergeTupleList :: Eq t => [(t,t)] -> [t]
---mergeTupleList ls =
--- listNeighbors [1,2,3,4,5,6] -> [(1,2),(2,3),(3,4),(4,5),(5,6)]
--- listNeighbors.listNeighbors $ [1,2,3,4,5,6]
---listNeighborsInv ls = map (\((a,b),(c,d))->[a,b,d]) (listNeighbors ls)
--- listNeighborsInv [(1,2),(2,3),(3,4),(4,5),(5,6)]
---listNeighborsInv [] = []
---listNeighborsInv ((a,b):(c,d):xs) = [a,b,d]:listNeighborsInv xs
---mergeTuples (a,b) (c,d) = (a,b,d)
 tupleToList :: (a, a) -> [a]
 tupleToList (a,b) = [a,b]
-
--- listNeighborsInv [(1,2),(2,3),(3,4),(4,5),(5,6)]
--- seqAdjacency [1,3,2,1,3,2,1,3,2,2,1,3]
