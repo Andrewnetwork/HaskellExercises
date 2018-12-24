@@ -1,0 +1,4 @@
+.stack-work/
+MNIST.cabal
+*~
+data
