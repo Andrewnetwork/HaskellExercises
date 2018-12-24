@@ -9,6 +9,7 @@ import Helpers
 
 data FunctionMachine a = FuncMach { procedures::[[a]->a], state::[a] }
 type Program = [Int]
+type MachineInitter a = [a] -> FunctionMachine a
 
 exeProgram' :: Program -> FunctionMachine a -> [a]
 exeProgram' (pc:counters) (FuncMach procedures state) = exeProgram' counters (FuncMach procedures newState)
@@ -22,9 +23,10 @@ exeProgram program fnMachine = last $ exeProgram' program fnMachine
 -- exeProgram' [0] (FuncMach [(\x->(last x)+1),(\x->(last x)+2)] [2])
 
 -- ########### Machine Initializers ######################
-funM1 :: [Double] -> FunctionMachine Double
+funM1 :: MachineInitter Double 
 funM1 = FuncMach [last,\x->head x + last x,\x->last x * (head x + 1),\x->last x * (head x + 2),
                    \x->head x * last x,(/2).last,(/3).last,(/4).last,(/8).last]
+
 
 -- ########## Program Search ######
 findPrograms :: Eq a => FunctionMachine a -> a -> Int -> [Program]
@@ -50,3 +52,4 @@ exeProgramOnLs program machineInitter inputs = exeProgram program <$> machineIni
 -- exeProgramOnLs [5,2] funM1 [0..20]
 -- exeProgramOnLs [2,5] funM1 [0..10]
 -- replicateM 3 [0,1,2]
+-- listPrograms (randFunc 10) funM1 2
