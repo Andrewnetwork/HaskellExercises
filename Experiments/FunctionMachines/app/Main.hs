@@ -2,6 +2,8 @@ module Main where
 
 import Lib
 import FunctionMachine
+-- import Helpers
+import Test.DocTest
 
 main :: IO ()
-main = someFunc
+main = doctest ["FunctionMachine.hs", "Experiments.hs"]
