@@ -21,6 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+# - Helpers
+# - Experiments
+# - FunctionMachine
+- doctest
 
 library:
   source-dirs: src
@@ -35,6 +39,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - FunctionMachines
+    - doctest
 
 tests:
   FunctionMachines-test:
@@ -46,3 +51,7 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - FunctionMachines
+    - hspec
+    # - Experiments
+    # - HUnit
+    # - Helpers
