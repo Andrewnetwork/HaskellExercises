@@ -3,8 +3,9 @@
 -- December 2018
 
 module Experiments where
--- import FunctionMachine
+import FunctionMachine
 import Helpers
+import Control.Applicative
 
 
 
@@ -38,6 +39,26 @@ funM3 = FuncMach
   , pred . last
   , sum
   ]
+
+funM4 :: MachineInitter Int Int
+funM4 = FuncMach
+  [ last,
+   (\x->x-1).last,
+   (+1).last,
+   sum
+  ]
+
+
+-- listPrograms (randFunc 20) funM2 6
+-- listPrograms (randFunc 100) funM3 5 - [[1,0,2,2,1],[1,2,1,2,1]]
+-- listPrograms (randFunc 20) funM4 5 -- [1,1,3,3,2]
+
+-- exeProgram' [1,1,1,1] (funM2 [2])
+-- exeProgramOnLs [2,2,0,2] funM2 [0..20]
+
+-- exeProgramOnLs [0,1,2] funM2 [0..20]
+-- exeProgramOnLs [0,1,0,1,1] funM2 [0..20]
+--randFunc maxNum = makeDataset (\n->(n+1)/3) maxNum
 
 -- | will this work
 -- >>> listPrograms (randFunc 20) funM2 4

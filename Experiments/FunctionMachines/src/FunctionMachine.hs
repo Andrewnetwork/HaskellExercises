@@ -12,7 +12,7 @@ import Helpers
 data FunctionMachine a = FuncMach
                        { procedures :: [[a] -> a]
                        , state      :: [a]
-                       } deriving (Show)
+                       }
 
 type Program             = [Int]
 type MachineInitter a  b = [a] -> FunctionMachine b
