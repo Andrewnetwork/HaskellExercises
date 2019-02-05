@@ -50,50 +50,10 @@ liftA2'' f x = (<*>) (fmap f x)
 -- map ::               (a -> b) -> [a] -> [b]
 -- [1,2,3]
 
--- Space of natural numbers: [0,1..]
--- Space of multiples of two: map (*2) [0,1..]
--- take 100 $ map (*2) [0,1..]
--- take 100 $ map (*3) [0,1..]
+tst342 = Just (5-) <*> Just 9
 
--- We wish to consider types where the mapping operation does not
--- preserve structure.
+sequentalApplication :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
+sequentalApplication a b c = a <$> b <*> c
+-- sequentalApplication (++) ["0","1","2","3"] ["0,","1","2","3"]
 
--- Degenerate Functor : dimensionality reduction
-class DegenerateFunctor d where
-  dmap :: (a -> Maybe b) -> d a -> d b
-
-instance DegenerateFunctor [] where
-  dmap fn ls = filterFn $ fmap fn ls
-               where filterFn :: [Maybe a] -> [a]
-                     filterFn ((Just x):xs) = x : filterFn xs
-                     filterFn (Nothing:xs)  = filterFn xs
-                     filterFn [] = []
-
--- Generative Functor : dimensionality expansion
-class GenerativeFunctor g where
-  gmap :: (a -> [b]) -> g a -> g b
-
-instance GenerativeFunctor [] where
-  gmap fn ls = concatMap fn ls
-
-evenMaybe :: Integral a => a -> Maybe a
-evenMaybe x
-  | mod x 2 == 0 = Just x
-  | otherwise = Nothing
-
-evenList :: Integral a => a -> [a]
-evenList x
-  | mod x 2 == 0 = [x]
-  | otherwise = []
-
-idAndPred x = [x,pred x]
--- idAndPred 10
--- (dmap evenMaybe [0..40]) == (map (*2) [0..20])
--- (dmap ((Just).succ) [0..20]) == (map succ [0..20])
--- gmap idAndPred [0..10]
--- gmap evenList [0..10]
---tst8 = [1,2,3] >>= pure.succ
---tst9 = [1,2,3] >>= \x -> [succ x]
-
-test9 = [0..10] >>= evenList
-test10 = [0..10] >>= idAndPred
+sequentalApplication'
