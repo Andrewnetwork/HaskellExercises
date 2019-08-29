@@ -1,13 +1,32 @@
+{-|
+Module: Numbers
+Description: All about numbers.
+Copyright: (c) Andrew Ribeiro 
+Maintainer: andrewnetwork@gmail.com 
+-}
 module Numbers where
 import           Data.Fixed (mod')
 import           Data.List  (nub, sort)
 
--- How Gauss originally thought about summing sequences of natural numbers.
--- Of course this is not as efficient as sum, but this setup leads to an algebraic abstraction.
-gaussIntegerSum :: (Fractional p, Enum p) => p -> p
-gaussIntegerSum n = (sum $ map (\(a,b) -> a+b) (zip ls (reverse ls))) / 2
-                     where ls = [1..n]
+------------------------------------------------------------------
+------------------------- Integers -------------------------------
+------------------------------------------------------------------
 
+-- How Gauss originally thought about summing sequences of natural numbers.
+-- i.e.:  Σ [1,2,3,4] = 
+-- 1 2 3 4
+-- + + + + = (5 + 5 + 5 + 5) / 2 = 20 / 2 = 10
+-- 4 3 2 1 
+-- More info: https://www.nctm.org/Publications/Teaching-Children-Mathematics/Blog/The-Story-of-Gauss/
+gaussIntegerSum :: (Fractional p, Enum p) => p -> p
+gaussIntegerSum n = sum tupSum / 2
+                     where ls = [1..n]
+                           tupSum = (\(a,b) -> a+b) <$> (zip ls (reverse ls))
+-- >>> gaussIntegerSum 3
+-- 6.0
+--
+
+gaussIntegerSumFormula :: Fractional a => a -> a
 gaussIntegerSumFormula end = (end*(end+1))/2
 
 mapSum :: Num a1 => [a2] -> [b] -> ((a2, b) -> a1) -> a1
