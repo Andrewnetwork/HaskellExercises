@@ -58,6 +58,7 @@ lowerCases = "abcdefghijklmnopqrstuvwxyz"
 upperCases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 letterDict = zip lowerCases upperCases
 
+dictReplace :: Eq a => [(a, a)] -> [a] -> [a]
 dictReplace dict (x : xs) = case x `lookup` dict of
     Just c  -> c : dictReplace dict xs
     Nothing -> x : dictReplace dict xs
@@ -75,15 +76,36 @@ toLowerCase = dictReplace (map swap letterDict)
 -- >>> shiftCipher 12 "Andrew Ribeiro"
 -- "obrfsk fwpswfc"
 --
+shiftCipher :: Int -> String -> String
 shiftCipher n = dictReplace (zip (shiftN lowerCases) lowerCases) . toLowerCase
     where shiftN = foldl1 (.) (replicate n shift)
 
--- >>> sequence (replicate 4 succ) $ 4
--- [5,5,5,5]
+-- >>> reverse "Hello World!"
+-- "!dlroW olleH"
 --
--- >>> :t foldl1 (.) (replicate 4 succ) 4
--- 8
+-- >>> intersperse ' ' "Hello world!" 
+-- "H e l l o   w o r l d !"
 --
--- >>> :t foldl1 (.)
--- foldl1 (.) :: Foldable t => t (a -> a) -> a -> a
+-- >>> subsequences [1,2,3,4] 
+-- [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3],[4],[1,4],[2,4],[1,2,4],[3,4],[1,3,4],[2,3,4],[1,2,3,4]]
 --
+-- >>> permutations [1,2,3]
+-- [[1,2,3],[2,1,3],[3,2,1],[2,3,1],[3,1,2],[1,3,2]]
+--
+-- >>> or [False,False,False]
+-- False
+--
+-- >>> or [False,True,False]
+-- True
+--
+-- >>> scanl (+) 0 [5,4,3,2,1,2,3,4,5]
+-- [0,5,9,12,14,15,17,20,24,29]
+--
+-- >>> mapAccumL (\a b -> (succ a, b+a)) 0 [1,2,3,4]
+-- (4,[1,3,5,7])
+--
+-- >>> maxVal [1,45,3,2,1,3]
+-- 45
+--
+maxVal :: [Integer] ->  Integer
+maxVal = foldl1 (\a b -> if a > b then a else b)
